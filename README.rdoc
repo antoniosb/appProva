@@ -1,28 +1,74 @@
-== README
+= appProva
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Plataforma para cadastro de questões.
+* {Live demo}[http://lorenadgb-appprova.herokuapp.com]
 
-Things you may want to cover:
+----
+== Requerimentos
 
-* Ruby version
+As seguintes dependências são necessárias para instalar, manter e subir o sistema:
+- DB {PostgreSQL}[http://postgresql.org]
+- Linguagem {Ruby}[http://ruby-lang.org], versão = 2.3.1
+- Ruby gems {Bundler}[http://bundler.io]
 
-* System dependencies
+== Instalação
+Após os requerimentos básicos deve ser feita uma cópia local do código:
 
-* Configuration
+    $ git clone git@github.com:lorenadgb/appProva.git
+    $ cd appProva
 
-* Database creation
+E a instalação das gems utilizadas pelo sistema:
 
-* Database initialization
+    $ bundle install
 
-* How to run the test suite
+== Configuração
 
-* Services (job queues, cache servers, search engines, etc.)
+=== Banco de dados
+Edite o arquivo database.yml com os parâmetros necessários para acessar o banco de dados:
 
-* Deployment instructions
+    $ nano config/database.yml
 
-* ...
+Edite o nome do usuário de acordo com suas preferências e configurações locais.
+
+*Para facilitar o desenvolvimento e teste do sistema recomenda-se que o usuário definido em config/database.yml tenha permissão para criar e apagar o banco de dados, caso contrário, os bancos (development e test) deverão ser criados direto no PostgreSQL (e os comandos <tt>rake db:create</tt> e/ou <tt>rake db:drop</tt> evitados).*
+
+Inicie o banco, caso ainda não tenha feito, e então execute:
+
+    $ rake db:create && rake db:migrate
+    $ rake db:test:prepare
+
+Execute o comando abaixo para popular o banco com um usuário com permissão de administrador.
+
+    $ rake db:seed
+
+Após acessar a aplicação e executar o comando acima, é possível iniciar uma sessão com as credenciais abaixo:
+     e-mail: administrator@appprova.com.br
+     senha: change123
+
+=== Aplicação
+
+Para iniciar a aplicação, execute o comando abaixo:
+
+    $ rails server
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+== Debugging
+
+Para debugar o código é utilizada a gem pry.
+Adicione o breakpoint na parte do código que deseja inspecionar com um método do pry <tt>binding.pry</tt>, depois esse código deve ser executado e então a sessão será aberta automaticamente.
+
+== Testes
+
+=== RSpec
+
+Para executar os testes, execute o comando abaixo:
+
+    $ rspec spec/
+
+Se quiser executar os testes em algum arquivo específico, execute:
+
+    $ rspec spec/controllers/questions_controller_spec.rb
+
+Para executar em uma linha especifica de algum arquivo, execute:
+
+    $ rspec spec/controllers/questions_controller_spec.rb:110
